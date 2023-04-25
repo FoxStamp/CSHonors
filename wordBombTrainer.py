@@ -64,7 +64,7 @@ def playGame():
                 print("Word does not contain prompt!")
                 print()
 
-            elif not isWord(userWord) or (userWord[-1] == 's' and not isWord(userWord[0:-2])):
+            elif not isWord(userWord) or (userWord[-1] == 's' and not isWord(userWord[:-1])):
                 print("Not a word!")
                 print()
 
