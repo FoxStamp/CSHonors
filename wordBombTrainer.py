@@ -15,7 +15,6 @@ def countWPP(prompt):
 
   return count
 
-
 # returns words that have prompt
 def wordsInPrompt(prompt):
   outputList = []
@@ -28,7 +27,8 @@ def wordsInPrompt(prompt):
 
 #checks if a word exsists
 def isWord(word):
-  if word.lower() in english_words:
+  newWord = word.lower()
+  if (newWord in english_words) or (newWord[-1] == 's' and newWord[:-1] in english_words):
     return True
   else:
     return False
@@ -41,43 +41,42 @@ def createPrompt(minWPP):
 
   return testPrompt
 
-
 #goes through one round of the game
 def playGame():
     isOver = False
     minWPP = 'start'
     while not minWPP.isdigit():
-        minWPP = input('Enter your desired minimum WPP: ')
+      minWPP = input('Enter your desired minimum WPP: ')
 
     while not isOver:
-        #individual prompt
-        roundPrompt = createPrompt(int(minWPP))
-        startTime = time.time()
-        promptIsOver = False
+      #individual prompt
+      roundPrompt = createPrompt(int(minWPP))
+      startTime = time.time()
+      promptIsOver = False
 
-        while promptIsOver == False:
-            print(f'Prompt: {roundPrompt}')
-            userWord = input(': ').lower()
-            endTime = time.time()
+      while promptIsOver == False:
+        print(f'Prompt: {roundPrompt}')
+        userWord = input(': ').lower()
+        endTime = time.time()
 
-            if roundPrompt not in userWord:
-                print("Word does not contain prompt!")
-                print()
+        if endTime - startTime > 15:
+          print("Time > 15 secs")
+          print()
+          promptIsOver = True
+          isOver = True
 
-            elif not isWord(userWord) or (userWord[-1] == 's' and not isWord(userWord[:-1])):
-                print("Not a word!")
-                print()
+        if roundPrompt not in userWord:
+          print("Word does not contain prompt!")
+          print()
 
-            else:
-                if endTime - startTime > 15:
-                   print("Time > 15 secs")
-                   print()
-                   promptIsOver = True
-                   isOver = True
-                else:
-                    print("Good!")
-                    print()
-                    promptIsOver = True
+        elif not isWord(userWord):
+          print("Not a word!")
+          print()
+
+        else:
+          print("Good!")
+          print()
+          promptIsOver = True
 
 # Game Loop
 while True:
